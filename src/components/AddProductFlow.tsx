@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Camera, Upload, Loader2, Sparkles } from 'lucide-react';
+import { Camera, Upload, Loader2 } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { CameraCapture } from './CameraCapture';
 import { VoiceRecorder } from './VoiceRecorder';
@@ -149,19 +149,12 @@ export function AddProductFlow({ isOpen, onClose, onSuccess }: AddProductFlowPro
 
   if (step === 'processing') {
     return (
-      <div className="fixed inset-0 bg-background z-50 flex flex-col items-center justify-center p-6">
-        <div className="w-20 h-20 rounded-2xl gradient-primary flex items-center justify-center mb-6 animate-pulse">
-          <Sparkles className="w-10 h-10 text-primary-foreground" />
-        </div>
-        <h2 className="text-xl font-bold mb-2">Processing Product</h2>
-        <p className="text-muted-foreground text-center max-w-xs">
-          AI is generating your professional product listing...
+      <div className="fixed inset-0 bg-background z-50 flex flex-col items-center justify-center p-4">
+        <Loader2 className="w-16 h-16 animate-spin text-primary mb-4" />
+        <h2 className="text-xl font-semibold mb-2">Processing Product</h2>
+        <p className="text-muted-foreground text-center">
+          Generating listing with AI...
         </p>
-        <div className="mt-6 flex gap-1">
-          <div className="w-2 h-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: '0ms' }} />
-          <div className="w-2 h-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: '150ms' }} />
-          <div className="w-2 h-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: '300ms' }} />
-        </div>
       </div>
     );
   }
@@ -180,28 +173,24 @@ export function AddProductFlow({ isOpen, onClose, onSuccess }: AddProductFlowPro
   // Choose modal
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
-      <DialogContent className="sm:max-w-md rounded-2xl">
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-center">Add Product</DialogTitle>
+          <DialogTitle>Add Product</DialogTitle>
         </DialogHeader>
         
         <div className="grid grid-cols-2 gap-4 py-4">
           <button
             onClick={() => setStep('camera')}
-            className="flex flex-col items-center justify-center p-6 rounded-2xl border-2 border-dashed border-border hover:border-primary hover:bg-accent/50 transition-all group"
+            className="flex flex-col items-center justify-center p-6 rounded-lg border-2 border-dashed border-border hover:border-primary hover:bg-muted/50 transition-colors"
           >
-            <div className="w-14 h-14 rounded-xl bg-accent flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-              <Camera className="w-7 h-7 text-accent-foreground" />
-            </div>
-            <span className="font-semibold">Camera</span>
+            <Camera className="w-10 h-10 mb-2 text-primary" />
+            <span className="font-medium">Camera</span>
             <span className="text-xs text-muted-foreground">Take a photo</span>
           </button>
           
-          <label className="flex flex-col items-center justify-center p-6 rounded-2xl border-2 border-dashed border-border hover:border-primary hover:bg-accent/50 transition-all cursor-pointer group">
-            <div className="w-14 h-14 rounded-xl bg-accent flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-              <Upload className="w-7 h-7 text-accent-foreground" />
-            </div>
-            <span className="font-semibold">Upload</span>
+          <label className="flex flex-col items-center justify-center p-6 rounded-lg border-2 border-dashed border-border hover:border-primary hover:bg-muted/50 transition-colors cursor-pointer">
+            <Upload className="w-10 h-10 mb-2 text-primary" />
+            <span className="font-medium">Upload</span>
             <span className="text-xs text-muted-foreground">From gallery</span>
             <input
               type="file"
