@@ -12,7 +12,7 @@ A modern web application built using React, TypeScript, and Vite with a clean UI
 
 If deployed, access the application here:
 
-https://your-live-url.com
+(https://catalog-copilot.vercel.app/)
 
 (Leave this out if not deployed yet.)
 
