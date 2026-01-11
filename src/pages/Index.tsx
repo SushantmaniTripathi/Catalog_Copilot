@@ -14,7 +14,7 @@ const Index = () => {
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
       <header className="p-4 border-b bg-card">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 opacity-0 animate-fade-in-up">
           <img src={logo} alt="Catalog Copilot" className="w-10 h-10 rounded-lg object-cover" />
           <div>
             <h1 className="font-bold text-lg">Catalog Copilot</h1>
@@ -26,18 +26,18 @@ const Index = () => {
       {/* Main content */}
       <main className="flex-1 flex flex-col items-center justify-center p-6">
         <div className="text-center space-y-6 max-w-sm">
-          <div className="w-24 h-24 mx-auto rounded-full bg-primary/10 flex items-center justify-center">
+          <div className="w-24 h-24 mx-auto rounded-full bg-primary/10 flex items-center justify-center opacity-0 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
             <Package className="w-12 h-12 text-primary" />
           </div>
           
-          <div className="space-y-2">
+          <div className="space-y-2 opacity-0 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             <TypingTagline />
             <p className="text-muted-foreground">
               Transform your voice into professional product catalogs in 10 seconds
             </p>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-3 opacity-0 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
             <Button 
               size="lg" 
               className="w-full gap-2"
