@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Plus, Package } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { AddProductFlow } from '@/components/AddProductFlow';
+import { TypingTagline } from '@/components/TypingTagline';
 import logo from '@/assets/logo.png';
 
 const Index = () => {
@@ -30,7 +31,7 @@ const Index = () => {
           </div>
           
           <div className="space-y-2">
-            <h2 className="text-2xl font-bold">Speak. Snap. Sell.</h2>
+            <TypingTagline />
             <p className="text-muted-foreground">
               Transform your voice into professional product catalogs in 10 seconds
             </p>
