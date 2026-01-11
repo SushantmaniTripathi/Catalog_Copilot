@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Package, Store } from 'lucide-react';
+import { Plus, Package } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { AddProductFlow } from '@/components/AddProductFlow';
+import logo from '@/assets/logo.png';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -13,9 +14,7 @@ const Index = () => {
       {/* Header */}
       <header className="p-4 border-b bg-card">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
-            <Store className="w-6 h-6 text-primary-foreground" />
-          </div>
+          <img src={logo} alt="Catalog Copilot" className="w-10 h-10 rounded-lg object-cover" />
           <div>
             <h1 className="font-bold text-lg">Catalog Copilot</h1>
             <p className="text-xs text-muted-foreground">AI Product Listings</p>
