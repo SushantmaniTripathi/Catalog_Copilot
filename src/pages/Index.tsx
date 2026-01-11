@@ -4,6 +4,7 @@ import { Plus, Package } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { AddProductFlow } from '@/components/AddProductFlow';
 import { TypingTagline } from '@/components/TypingTagline';
+import { ThemeToggle } from '@/components/ThemeToggle';
 import logo from '@/assets/logo.png';
 
 const Index = () => {
@@ -11,15 +12,18 @@ const Index = () => {
   const [showAddProduct, setShowAddProduct] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col transition-colors duration-300">
       {/* Header */}
-      <header className="p-4 border-b bg-card">
-        <div className="flex items-center gap-3 opacity-0 animate-fade-in-up">
-          <img src={logo} alt="Catalog Copilot" className="w-10 h-10 rounded-lg object-cover" />
-          <div>
-            <h1 className="font-bold text-lg">Catalog Copilot</h1>
-            <p className="text-xs text-muted-foreground">AI Product Listings</p>
+      <header className="p-4 border-b bg-card transition-colors duration-300">
+        <div className="flex items-center justify-between opacity-0 animate-fade-in-up">
+          <div className="flex items-center gap-3">
+            <img src={logo} alt="Catalog Copilot" className="w-10 h-10 rounded-lg object-cover" />
+            <div>
+              <h1 className="font-bold text-lg">Catalog Copilot</h1>
+              <p className="text-xs text-muted-foreground">AI Product Listings</p>
+            </div>
           </div>
+          <ThemeToggle />
         </div>
       </header>
 
