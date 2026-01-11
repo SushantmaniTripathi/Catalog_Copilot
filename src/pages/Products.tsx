@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Copy, Eye, Plus, Package, Check } from 'lucide-react';
+import { ArrowLeft, Copy, Eye, Plus, Package, Check, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { supabase } from '@/integrations/supabase/client';
@@ -58,37 +58,56 @@ const Products = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
-      <header className="p-4 border-b bg-card flex items-center gap-3">
-        <Button variant="ghost" size="icon" onClick={() => navigate('/')}>
-          <ArrowLeft className="w-5 h-5" />
-        </Button>
-        <h1 className="font-bold text-lg">My Products</h1>
-        <div className="flex-1" />
-        <Button size="sm" onClick={() => setShowAddProduct(true)}>
-          <Plus className="w-4 h-4 mr-1" />
-          Add
-        </Button>
+      <header className="px-4 py-4 border-b bg-card/80 backdrop-blur-sm sticky top-0 z-40">
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" size="icon" onClick={() => navigate('/')} className="rounded-xl">
+            <ArrowLeft className="w-5 h-5" />
+          </Button>
+          <div className="flex-1">
+            <h1 className="font-bold text-lg tracking-tight">My Catalog</h1>
+            <p className="text-xs text-muted-foreground">{products.length} products</p>
+          </div>
+          <Button 
+            size="sm" 
+            onClick={() => setShowAddProduct(true)}
+            className="rounded-xl gradient-primary border-0 shadow-md shadow-primary/20"
+          >
+            <Plus className="w-4 h-4 mr-1" />
+            Add
+          </Button>
+        </div>
       </header>
 
       {/* Content */}
       <main className="flex-1 p-4">
         {loading ? (
           <div className="flex items-center justify-center h-64">
-            <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full" />
+            <div className="flex flex-col items-center gap-3">
+              <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center animate-pulse">
+                <Sparkles className="w-5 h-5 text-primary-foreground" />
+              </div>
+              <p className="text-sm text-muted-foreground">Loading catalog...</p>
+            </div>
           </div>
         ) : products.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-64 text-center">
-            <Package className="w-16 h-16 text-muted-foreground mb-4" />
-            <p className="text-muted-foreground">No products yet</p>
-            <Button className="mt-4" onClick={() => setShowAddProduct(true)}>
+            <div className="w-20 h-20 rounded-2xl bg-accent flex items-center justify-center mb-4">
+              <Package className="w-10 h-10 text-accent-foreground" />
+            </div>
+            <h3 className="font-semibold text-lg mb-1">No products yet</h3>
+            <p className="text-muted-foreground text-sm mb-4">Add your first product to get started</p>
+            <Button 
+              onClick={() => setShowAddProduct(true)}
+              className="rounded-xl gradient-primary border-0 shadow-md shadow-primary/20"
+            >
               <Plus className="w-4 h-4 mr-2" />
               Add Your First Product
             </Button>
           </div>
         ) : (
-          <div className="grid gap-4">
+          <div className="grid gap-3">
             {products.map((product) => (
-              <Card key={product.id} className="flex overflow-hidden">
+              <Card key={product.id} className="flex overflow-hidden rounded-2xl border shadow-sm hover:shadow-md transition-shadow">
                 {/* Thumbnail */}
                 <div className="w-24 h-24 bg-muted flex-shrink-0">
                   {product.image_url ? (
@@ -98,8 +117,8 @@ const Products = () => {
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <Package className="w-8 h-8 text-muted-foreground" />
+                    <div className="w-full h-full flex items-center justify-center bg-accent">
+                      <Package className="w-8 h-8 text-accent-foreground" />
                     </div>
                   )}
                 </div>
@@ -107,9 +126,9 @@ const Products = () => {
                 {/* Details */}
                 <div className="flex-1 p-3 flex flex-col justify-between min-w-0">
                   <div>
-                    <h3 className="font-medium truncate">{product.title}</h3>
+                    <h3 className="font-semibold truncate">{product.title}</h3>
                     {product.price && (
-                      <p className="text-primary font-semibold">₹{product.price}</p>
+                      <p className="text-primary font-bold">₹{product.price.toLocaleString()}</p>
                     )}
                   </div>
                   
@@ -118,6 +137,7 @@ const Products = () => {
                     <Button 
                       variant="outline" 
                       size="sm"
+                      className="rounded-lg flex-1"
                       onClick={() => navigate(`/p/${product.id}`)}
                     >
                       <Eye className="w-4 h-4 mr-1" />
@@ -126,14 +146,15 @@ const Products = () => {
                     <Button 
                       variant="outline" 
                       size="sm"
+                      className="rounded-lg flex-1"
                       onClick={() => handleCopyLink(product.id)}
                     >
                       {copiedId === product.id ? (
-                        <Check className="w-4 h-4 mr-1 text-primary" />
+                        <Check className="w-4 h-4 mr-1 text-success" />
                       ) : (
                         <Copy className="w-4 h-4 mr-1" />
                       )}
-                      Copy Link
+                      {copiedId === product.id ? 'Copied!' : 'Share'}
                     </Button>
                   </div>
                 </div>
