@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Camera, Upload, X, Loader2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Camera, Upload, Loader2 } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { CameraCapture } from './CameraCapture';
 import { VoiceRecorder } from './VoiceRecorder';
@@ -56,14 +55,14 @@ export function AddProductFlow({ isOpen, onClose, onSuccess }: AddProductFlowPro
     reader.readAsDataURL(file);
   };
 
-  const handleVoiceComplete = async (audioBase64: string) => {
+  const handleVoiceComplete = async (transcript: string) => {
     if (!imageBase64) return;
     
     setStep('processing');
     
     try {
       const { data, error } = await supabase.functions.invoke('process-product', {
-        body: { imageBase64, audioBase64 }
+        body: { imageBase64, transcript }
       });
 
       if (error) throw error;
@@ -154,7 +153,7 @@ export function AddProductFlow({ isOpen, onClose, onSuccess }: AddProductFlowPro
         <Loader2 className="w-16 h-16 animate-spin text-primary mb-4" />
         <h2 className="text-xl font-semibold mb-2">Processing Product</h2>
         <p className="text-muted-foreground text-center">
-          Converting speech to text and generating listing...
+          Generating listing with AI...
         </p>
       </div>
     );
