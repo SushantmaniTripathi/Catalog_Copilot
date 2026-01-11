@@ -1,21 +1,23 @@
 import { Mic, MicOff, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useAudioRecorder } from '@/hooks/useAudioRecorder';
+import { useVoiceRecognition } from '@/hooks/useVoiceRecognition';
 
 interface VoiceRecorderProps {
   imagePreview: string;
-  onComplete: (audioBase64: string) => void;
+  onComplete: (transcript: string) => void;
   onBack: () => void;
 }
 
 export function VoiceRecorder({ imagePreview, onComplete, onBack }: VoiceRecorderProps) {
-  const { isRecording, countdown, error, audioBase64, startRecording } = useAudioRecorder(6);
+  const { isRecording, countdown, error, transcript, isSupported, startRecording } = useVoiceRecognition(6);
 
   const handleProceed = () => {
-    if (audioBase64) {
-      onComplete(audioBase64);
+    if (transcript.trim()) {
+      onComplete(transcript.trim());
     }
   };
+
+  const hasTranscript = transcript.trim().length > 0;
 
   return (
     <div className="fixed inset-0 bg-background z-50 flex flex-col">
@@ -47,9 +49,23 @@ export function VoiceRecorder({ imagePreview, onComplete, onBack }: VoiceRecorde
         {error && (
           <p className="text-destructive text-center text-sm">{error}</p>
         )}
+
+        {!isSupported && (
+          <p className="text-destructive text-center text-sm">
+            Voice recognition not supported. Try Chrome or Safari on mobile.
+          </p>
+        )}
+        
+        {/* Live transcript display */}
+        {(isRecording || hasTranscript) && (
+          <div className="bg-muted p-3 rounded-lg min-h-[60px]">
+            <p className="text-sm text-muted-foreground mb-1">What I heard:</p>
+            <p className="text-sm">{transcript || 'Listening...'}</p>
+          </div>
+        )}
         
         <div className="text-center">
-          {!audioBase64 && !isRecording && (
+          {!hasTranscript && !isRecording && (
             <p className="text-muted-foreground text-sm mb-4">
               Describe your product in any language. Mention price, size, color, etc.
             </p>
@@ -59,7 +75,7 @@ export function VoiceRecorder({ imagePreview, onComplete, onBack }: VoiceRecorde
               Recording... Speak now!
             </p>
           )}
-          {audioBase64 && !isRecording && (
+          {hasTranscript && !isRecording && (
             <p className="text-primary font-medium mb-4">
               <Check className="w-5 h-5 inline mr-1" />
               Voice recorded successfully!
@@ -72,10 +88,10 @@ export function VoiceRecorder({ imagePreview, onComplete, onBack }: VoiceRecorde
             Back
           </Button>
           
-          {!audioBase64 ? (
+          {!hasTranscript ? (
             <Button 
               onClick={startRecording} 
-              disabled={isRecording}
+              disabled={isRecording || !isSupported}
               className="flex-1"
               variant={isRecording ? "destructive" : "default"}
             >

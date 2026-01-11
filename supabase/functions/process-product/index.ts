@@ -7,7 +7,7 @@ const corsHeaders = {
 
 interface ProcessProductRequest {
   imageBase64: string;
-  audioBase64: string;
+  transcript: string; // Now receives transcript directly instead of audio
 }
 
 interface ProductResult {
@@ -26,69 +26,36 @@ serve(async (req) => {
   }
 
   try {
-    const { imageBase64, audioBase64 }: ProcessProductRequest = await req.json();
+    const { imageBase64, transcript }: ProcessProductRequest = await req.json();
 
-    if (!imageBase64 || !audioBase64) {
-      throw new Error('Both image and audio are required');
+    if (!imageBase64) {
+      throw new Error('Image is required');
     }
 
-    console.log('Processing product - received image and audio');
+    if (!transcript || transcript.trim().length === 0) {
+      throw new Error('Voice transcript is required');
+    }
 
-    // Step 1: Process image (basic enhancement - resize and normalize)
-    // For now, we'll pass through the image as-is since Deno edge functions
-    // don't have Sharp. The image is already captured at reasonable resolution.
+    console.log('Processing product with transcript:', transcript);
+
+    // Image is passed through as-is (already captured at reasonable resolution)
     const enhancedImageBase64 = imageBase64;
-    console.log('Image processed');
 
-    // Step 2: Transcribe audio using Groq Whisper
-    const GROQ_API_KEY = Deno.env.get('GROQ_API_KEY');
-    if (!GROQ_API_KEY) {
-      throw new Error('GROQ_API_KEY is not configured');
-    }
-
-    // Convert base64 audio to blob for Groq
-    const audioBytes = Uint8Array.from(atob(audioBase64), c => c.charCodeAt(0));
-    const audioBlob = new Blob([audioBytes], { type: 'audio/webm' });
-
-    const formData = new FormData();
-    formData.append('file', audioBlob, 'audio.webm');
-    formData.append('model', 'whisper-large-v3');
-    formData.append('response_format', 'json');
-
-    console.log('Sending audio to Groq Whisper...');
-    const whisperResponse = await fetch('https://api.groq.com/openai/v1/audio/transcriptions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${GROQ_API_KEY}`,
-      },
-      body: formData,
-    });
-
-    if (!whisperResponse.ok) {
-      const errorText = await whisperResponse.text();
-      console.error('Whisper API error:', errorText);
-      throw new Error(`Whisper API error: ${whisperResponse.status}`);
-    }
-
-    const whisperResult = await whisperResponse.json();
-    const transcript = whisperResult.text || '';
-    console.log('Transcript:', transcript);
-
-    // Step 3: Generate product details using Gemini via Lovable AI Gateway
+    // Generate product details using Gemini via Lovable AI Gateway
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
     if (!LOVABLE_API_KEY) {
       throw new Error('LOVABLE_API_KEY is not configured');
     }
 
     const systemPrompt = `You are a product listing assistant for small shopkeepers. 
-Given a voice description of a product (which may be in any language, often Hindi or regional Indian languages), 
+Given a voice description of a product (which may be in any language, often Hindi or regional Indian languages mixed with English), 
 extract and generate the following in clean, professional English:
 
 1. title: A short, catchy product title (max 10 words)
 2. description: A clear product description (2-3 sentences)
 3. price: Extract the price if mentioned (as a number only, no currency symbol). If not mentioned, return null.
-4. whatsappCopy: Ready-to-share WhatsApp message with product details and call-to-action
-5. instagramCopy: Instagram-ready caption with emojis and hashtags
+4. whatsappCopy: Ready-to-share WhatsApp message with product details, price, and a call-to-action like "DM to order!"
+5. instagramCopy: Instagram-ready caption with emojis and relevant hashtags
 
 Respond ONLY with valid JSON in this exact format:
 {
@@ -99,6 +66,7 @@ Respond ONLY with valid JSON in this exact format:
   "instagramCopy": "..."
 }`;
 
+    console.log('Calling Gemini API...');
     const geminiResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -109,14 +77,14 @@ Respond ONLY with valid JSON in this exact format:
         model: 'google/gemini-3-flash-preview',
         messages: [
           { role: 'system', content: systemPrompt },
-          { role: 'user', content: `Voice transcript: "${transcript}"` }
+          { role: 'user', content: `Voice transcript from shopkeeper: "${transcript}"` }
         ],
       }),
     });
 
     if (!geminiResponse.ok) {
       const errorText = await geminiResponse.text();
-      console.error('Gemini API error:', errorText);
+      console.error('Gemini API error:', geminiResponse.status, errorText);
       
       if (geminiResponse.status === 429) {
         return new Response(JSON.stringify({ error: 'Rate limit exceeded. Please try again in a moment.' }), {
