@@ -30,9 +30,9 @@ const Index = () => {
           </div>
           
           <div className="space-y-2">
-            <h2 className="text-2xl font-bold">List Products Fast</h2>
+            <h2 className="text-2xl font-bold">Speak. Snap. Sell.</h2>
             <p className="text-muted-foreground">
-              Take a photo, describe in any language, get professional listings for WhatsApp & Instagram
+              Transform your voice into professional product catalogs in 10 seconds
             </p>
           </div>
 
