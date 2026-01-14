@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Copy, Eye, Plus, Package, Check, Trash2 } from 'lucide-react';
+import { ArrowLeft, Copy, Eye, Plus, Package, Check, Trash2, Pencil } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { AddProductFlow } from '@/components/AddProductFlow';
+import { EditProductModal } from '@/components/EditProductModal';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,8 +22,11 @@ import {
 interface Product {
   id: string;
   title: string;
+  description: string | null;
   price: number | null;
   image_url: string | null;
+  whatsapp_copy: string | null;
+  instagram_copy: string | null;
   created_at: string;
 }
 
@@ -32,12 +36,13 @@ const Products = () => {
   const [loading, setLoading] = useState(true);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [showAddProduct, setShowAddProduct] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
   const fetchProducts = async () => {
     try {
       const { data, error } = await supabase
         .from('products')
-        .select('id, title, price, image_url, created_at')
+        .select('id, title, description, price, image_url, whatsapp_copy, instagram_copy, created_at')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
@@ -163,6 +168,13 @@ const Products = () => {
                       )}
                       Copy Link
                     </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => setEditingProduct(product)}
+                    >
+                      <Pencil className="w-4 h-4" />
+                    </Button>
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
                         <Button 
@@ -202,6 +214,13 @@ const Products = () => {
       <AddProductFlow
         isOpen={showAddProduct}
         onClose={() => setShowAddProduct(false)}
+        onSuccess={fetchProducts}
+      />
+
+      <EditProductModal
+        product={editingProduct}
+        isOpen={!!editingProduct}
+        onClose={() => setEditingProduct(null)}
         onSuccess={fetchProducts}
       />
     </div>
