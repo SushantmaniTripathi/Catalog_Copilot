@@ -10,7 +10,6 @@ A modern web application built using React, TypeScript, and Vite with a clean UI
 
 ## Live Demo
 
-<img width="1277" height="818" alt="Screenshot 2026-01-10 130732" src="https://github.com/user-attachments/assets/9f80536c-f243-460b-a750-3fafac350ae0" />
 
 
 If deployed, access the application here:
