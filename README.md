@@ -10,6 +10,9 @@ A modern web application built using React, TypeScript, and Vite with a clean UI
 
 ## Live Demo
 
+![Uploading Screenshot 2026-01-10 130732.png…]()
+
+
 If deployed, access the application here:
 
 (https://catalog-copilot.vercel.app/)
