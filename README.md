@@ -1,197 +1,78 @@
+# Catalog Copilot
 
----
-
-````md
-# Catalog Copilot 
-
-A modern web application built using React, TypeScript, and Vite with a clean UI powered by Tailwind CSS and shadcn/ui.
-
----
+A modern web application built with **React, TypeScript, and Vite**, featuring a clean, responsive interface powered by **Tailwind CSS** and **shadcn/ui**.
 
 ## Live Demo
 
+[View Live Application](https://catalog-copilot.vercel.app/)
 
-
-If deployed, access the application here:
-
-(https://catalog-copilot.vercel.app/)
-
-(Leave this out if not deployed yet.)
-
----
+![Catalog Copilot Preview](https://github.com/user-attachments/assets/2030f1cb-6f9c-4c5e-9ec4-be5bc1cb0416)
 
 ## Tech Stack
 
-- **React** – UI library
-- **TypeScript** – Static typing
-- **Vite** – Fast build tool and dev server
+- **React** – Component-based UI development
+- **TypeScript** – Type safety and maintainable code
+- **Vite** – Fast development server and build tool
 - **Tailwind CSS** – Utility-first styling
-- **shadcn/ui** – Accessible UI components
+- **shadcn/ui** – Reusable and accessible UI components
 
----
+## Getting Started
 
-## Project Setup
+Follow these steps to set up the project locally.
 
 ### Prerequisites
 
 Make sure you have the following installed:
 
-- Node.js (v18 or higher recommended)
-- npm (comes with Node.js)
+- [Node.js](https://nodejs.org/) (v18 or higher)
+- npm (included with Node.js)
 
----
+### Installation
 
-## Installation
-
-Follow these steps to run the project locally.
-
-### Step 1: Clone the repository
+**1. Clone the repository**
 
 ```bash
-git clone <YOUR_GIT_URL>
-````
-
-### Step 2: Move into the project directory
-
-```bash
-cd <YOUR_PROJECT_NAME>
+git clone https://github.com/SushantmaniTripathi/Catalog_Copilot.git
 ```
 
-### Step 3: Install dependencies
+**2. Navigate to the project directory**
+
+```bash
+cd Catalog_Copilot
+```
+
+**3. Install dependencies**
 
 ```bash
 npm install
 ```
 
----
-
-## Running the App
-
-### Start development server
+**4. Start the development server**
 
 ```bash
 npm run dev
 ```
 
-The app will start locally and be available at:
-
-```
-http://localhost:5173
-```
-
-Changes made to the code will reload automatically.
-
----
+Open the local URL displayed in your terminal to access the application.
 
 ## Build for Production
 
-To generate an optimized production build:
+To create an optimized production build:
 
 ```bash
 npm run build
 ```
 
-The output will be created inside the `dist/` directory.
-
----
-
-## Preview Production Build Locally
+To preview the production build locally:
 
 ```bash
 npm run preview
 ```
 
-This helps verify the production build before deployment.
-
----
-
-## Deployment
-
-This is a standard Vite + React project and can be deployed on any static hosting provider.
-
-Common options:
-
-* Vercel
-* Netlify
-* Cloudflare Pages
-* GitHub Pages
-
-**Build command**
-
-```bash
-npm run build
-```
-
-**Output directory**
-
-```text
-dist
-```
-
----
-
-## Environment Variables
-
-If the project uses environment variables, create a `.env` file in the root directory:
-
-```env
-VITE_EXAMPLE_KEY=your_value_here
-```
-
-Only variables prefixed with `VITE_` are accessible in the frontend.
-
----
-
-## Project Structure
-
-```text
-.
-├── public/
-├── src/
-│   ├── components/
-│   ├── pages/
-│   ├── hooks/
-│   ├── lib/
-│   └── main.tsx
-├── index.html
-├── package.json
-├── tailwind.config.ts
-└── vite.config.ts
-```
-
-(Structure may vary slightly depending on features.)
-
----
-
 ## Contributing
 
-1. Fork the repository
-2. Create a new branch
-3. Make your changes
-4. Commit and push
-5. Open a pull request
-
----
+Contributions, suggestions, and bug reports are welcome. Feel free to fork the repository and submit a pull request.
 
 ## License
 
-Add your preferred license here (MIT, Apache 2.0, etc).
-
----
-
-```
-
-### Straight talk
-
-- This format previews **cleanly on GitHub**
-- Works for **hackathons, portfolios, and recruiters**
-- Doesn’t expose internal tools or shortcuts
-- Looks like a repo built by someone serious
-
-If you want:
-- a **shorter elite README**
-- a **hackathon-focused version**
-- or a **recruiter-optimized version**
-
-say it plainly and I’ll rewrite it.
-```
+No license has been specified for this project yet.
